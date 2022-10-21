@@ -12,35 +12,22 @@ public class AlignColumns {
         return result.replace("  ", "$ ");
     }
 
-    public static List<String[]> align(String text) {
+    public static List<String[]> main(String text) {
+        List<String[]> wordMatrix = wordSetUp(text);
+        align(wordMatrix);
+        return wordMatrix;
+    }
+
+    private static void align(List<String[]> wordMatrix) {
+        for (int columns = 0; columns < 2; columns ++) {
+            int maxLength = getLongestLengthOfColumn(wordMatrix, columns);
+            addBlankSpacesByColumn(wordMatrix, columns, maxLength);
+        }
+    }
+
+    private static List<String[]> wordSetUp(String text) {
         String textReplaced = replaceDollarBySpace(text);
         var wordMatrix = createWordMatrix(textReplaced);
-
-        for (int col = 0; col < 2; col ++) {
-            int maxLength = 0;
-            for (int row = 0; row < 2; row ++) {
-                int wordLength = wordMatrix.get(col)[row].length();
-                if (wordLength > maxLength) {
-                    maxLength = wordLength;
-                }
-            }
-
-            for (int row2 = 0; row2 < 2; row2 ++) {
-                int blankSpaces = (maxLength - 1) - wordMatrix.get(col)[row2].length();
-                for (int cont = 0; cont < blankSpaces; cont ++) {
-                    wordMatrix.get(col)[row2].concat(" ");
-                }
-            }
-        }
-
-        /*
-        DONE 1 - Renplazamos los dolares por espacio
-        DONE 2 - Creamos una matrix con cada palabra y cada línea
-        3 - Tenemos que buscar la palabra más grande por columna
-        4 - Añadir espacio para se quedar de acuerdo a el length de la palabra más grande
-        5 - Generar una string con todas las líneas
-        * */
-
         return wordMatrix;
     }
 
@@ -50,5 +37,25 @@ public class AlignColumns {
         return Stream.of(allLines)
                 .map(line -> line.split(" "))
                 .collect(Collectors.toList());
+    }
+
+    private static int getLongestLengthOfColumn(List<String[]> wordMatrix, int col) {
+        int maxLength = 0;
+        for (int row = 0; row < 2; row ++) {
+            int wordLength = wordMatrix.get(row)[col].length();
+            if (wordLength > maxLength) {
+                maxLength = wordLength;
+            }
+        }
+        return maxLength;
+    }
+
+    private static void addBlankSpacesByColumn(List<String[]> wordMatrix, int column, int maxLength) {
+        for (int row = 0; row < 2; row ++) {
+            int blankSpaces = maxLength - wordMatrix.get(row)[column].length();
+            for (int cont = 0; cont <= blankSpaces; cont ++) {
+                wordMatrix.get(row)[column] = wordMatrix.get(row)[column].concat(" ");
+            }
+        }
     }
 }

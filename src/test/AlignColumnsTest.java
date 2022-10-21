@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -88,14 +89,20 @@ public class AlignColumnsTest {
     @Test
     void shouldReturnTwoPhrasesAlignedByColumnsWhenThereIsABreakLine() {
         // Given
-        var input = "Cadena$cambiada\nSoy$cadena";
-        var expected = "Cadena cambiada\nSoy    cadena";
+        var input = "Cadena$cambiada\nSoy$cadena ";
+        var expected = new ArrayList<String[]>();
+        String[] firstLine = {"Cadena ", "cambiada "};
+        String[] secondLine = {"Soy    ", "cadena   "};
+        expected.add(firstLine);
+        expected.add(secondLine);
 
         // When
-        var actual = AlignColumns.align(input);
+        var actual = AlignColumns.main(input);
 
         // Then
-        assertEquals(expected, actual);
+        for(int i = 0; i < expected.size(); i ++) {
+            assertArrayEquals(expected.get(i), actual.get(i));
+        }
     }
 
 }
