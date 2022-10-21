@@ -1,6 +1,8 @@
-package main;
+package test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import main.AlignColumns;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -54,19 +56,6 @@ public class AlignColumnsTest {
     }
 
     @Test
-    void shouldReturnTwoPhrasesAlignedByColumnsWhenThereIsABreakLine() {
-        // Given
-        var input = "Cadena$cambiada\nSoy$cadena";
-        var expected = "Cadena cambiada\nSoy    cadena";
-
-        // When
-        var actual = AlignColumns.align(input);
-
-        // Then
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void shouldReturnWordMatrixWithForAllTheLines() {
         // Given
         var input = "Cadena cambiada\nSoy cadena";
@@ -96,6 +85,17 @@ public class AlignColumnsTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void shouldReturnTwoPhrasesAlignedByColumnsWhenThereIsABreakLine() {
+        // Given
+        var input = "Cadena$cambiada\nSoy$cadena";
+        var expected = "Cadena cambiada\nSoy    cadena";
 
+        // When
+        var actual = AlignColumns.align(input);
+
+        // Then
+        assertEquals(expected, actual);
+    }
 
 }
